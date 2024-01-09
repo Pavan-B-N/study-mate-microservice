@@ -32,13 +32,20 @@ class YoutubeModel(BaseModel):
 @app.post("/youtube-to-audio")
 async def youtubeVideoToAudio(youtubemodel:YoutubeModel):
     destination ="audios"
-    linkName=youtubemodel.link.split("/")[-1]
+    # linkName=youtubemodel.link.split("/")[-1]
+    linkName=youtubemodel.link.split("=")[1]
     filename=linkName+".mp3"
     host="http://localhost:8000"
     # check if the file is already exits
     if(os.path.isfile(os.path.join(destination, filename))):
         return {"status":"success", "message":"audio already exists","filename":filename}
+    
+    proxy = {"http": "http://127.0.0.1", "https": "https://127.0.0.1"}
+    
+    # yt = YouTube(youtubemodel.link,proxies=proxy)
     yt = YouTube(youtubemodel.link)
+    
+    # yt.headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     video = yt.streams.filter(only_audio = True).first()
     out_file = video.download(output_path = destination)
     os.rename(out_file, os.path.join(destination, filename))
