@@ -9,10 +9,13 @@ app = FastAPI()
 from pytube import YouTube
 import os
 
-
+# dotenv
+from dotenv import load_dotenv
+load_dotenv()
+OpenAI_API_Key = os.getenv("OpenAI_API_Key")
 # open AI
 from openai import OpenAI
-client = OpenAI(api_key="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")
+client = OpenAI(api_key=OpenAI_API_Key)
 
 # serving static files
 app.mount("/audios", StaticFiles(directory="audios"), name="audios")

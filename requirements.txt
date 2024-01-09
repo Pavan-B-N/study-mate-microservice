@@ -3,3 +3,4 @@ uvicorn
 pytube
 aiofiles # static files serving
 openai
+python-dotenv
