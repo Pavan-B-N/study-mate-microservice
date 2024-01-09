@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+pytube
+aiofiles # static files serving
+openai
